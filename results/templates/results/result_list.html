@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<hr>
+<h3>Top Scorers</h3>
+<hr>
+    {% for obj in object_list %}
+    <ul>
+        <li>{{ obj }}</li>
+    </ul>
+    {% endfor %}
+
+{% endblock content %}
+

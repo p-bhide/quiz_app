@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %} 
+
+{% block scripts %}
+<script src="{% static 'quizes/main.js' %}" defer></script>
+{% endblock scripts %}
+
+{% block title %} List {% endblock title %} 
+
+{% block content%}
+<hr>
+
+<!-- Modal -->
+<div class="modal fade" id="StartQuizModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="modal-body-confirm">
+        </div>
+        <div class="modal-body">
+          {% csrf_token %}
+          <label for='username'>Name</label>
+          <input type="text" class = "form-control" id='username' style="min-width: 100%"/>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+        <button required type="button" id="start-button" class="btn btn-success">Start</button>
+        </div>
+    </div>
+    </div>
+</div>
+<form class="header__search" method="GET" action="{% url 'quizes:home' %}">
+    <label>
+      <svg
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        width="32"
+        height="32"
+        viewBox="0 0 32 32"
+      >
+        <title>search</title>
+        <path
+          d="M32 30.586l-10.845-10.845c1.771-2.092 2.845-4.791 2.845-7.741 0-6.617-5.383-12-12-12s-12 5.383-12 12c0 6.617 5.383 12 12 12 2.949 0 5.649-1.074 7.741-2.845l10.845 10.845 1.414-1.414zM12 22c-5.514 0-10-4.486-10-10s4.486-10 10-10c5.514 0 10 4.486 10 10s-4.486 10-10 10z"
+        ></path>
+      </svg>
+      <input name="q" placeholder="Search for test ..." />
+    </label>
+  </form>
+  <br>
+  <a href="{% url 'results:res' %}">Results</a>
+  <hr>
+    {% for obj in object_list %} 
+        {% comment %} <a href='{{ obj.get_absolute_url }}'>{{ obj }}</a> {% endcomment %}
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-link modal-button" 
+                data-bs-toggle="modal" 
+                data-bs-target="#StartQuizModal"
+                data-pk = "{{ obj.pk }}"
+                data-questions = "{{ obj.number_of_questions }}"
+                data-time = "{{ obj.time }}"
+                data-difficulty = "{{ obj.difficulty }}"
+                data-pass = "{{ obj.passing_score }}"
+                data-name = "{{ obj.name }}"
+                >
+            {{ obj }}
+        </button>
+        <br>
+        
+    {% endfor %} 
+{% endblock content %}
+
