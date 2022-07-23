@@ -6,4 +6,4 @@ from django.views.generic import ListView
 class ResultView(ListView):
     model = Result
     ordering = ['-score']
-    paginate_by = 10
+    paginate_by = 5

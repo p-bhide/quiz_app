@@ -9,6 +9,29 @@
         <li>{{ obj }}</li>
     </ul>
     {% endfor %}
+    
+    {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="/results?page={{ page_obj.previous_page_number }}">previous</a>
+                {% else %}
+                    previous
+                {% endif %}
+                {% comment %} <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span> {% endcomment %}
+                {% for num in page_obj.paginator %}
+                    <a href="/results?page={{num.number}}">{{ num.number }}</a>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <a href="/results?page={{ page_obj.next_page_number }}">next</a>
+                {% else %}
+                    next
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
 
 {% endblock content %}
 
